@@ -1,0 +1,157 @@
+{
+    "type": "object",
+    "properties": {
+      "startEvent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "process": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "task"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "name"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "xor"
+                  ]
+                },
+                "condition": {
+                  "type": "string"
+                },
+                "branches": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "branch": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/process/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "label",
+                      "branch"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "branches"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "parallel"
+                  ]
+                },
+                "branches": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "branch": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/process/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "branch"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "branches"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "loop"
+                  ]
+                },
+                "condition": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/properties/process/items"
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "type",
+                "condition",
+                "body"
+              ]
+            }
+          ]
+        }
+      },
+      "endEvent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "required": [
+      "startEvent",
+      "process",
+      "endEvent"
+    ],
+    "additionalProperties": false
+  }

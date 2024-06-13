@@ -1,0 +1,148 @@
+{
+    "type": "object",
+    "definitions": {
+        "startEvent": {
+        "type": "object",
+        "properties": {
+            "name": {
+            "type": "string"
+            }
+        },
+        "required": ["name"]
+        },
+        "endEvent": {
+        "type": "object",
+        "properties": {
+            "name": {
+            "type": "string"
+            }
+        },
+        "required": ["name"]
+        },
+        "task": {
+        "type": "object",
+        "properties": {
+            "type": {
+            "type": "string",
+            "enum": ["task"]
+            },
+            "name": {
+            "type": "string"
+            }
+        },
+        "required": ["type", "name"]
+        },
+        "loop": {
+            "type": "object",
+            "properties": {
+                "type": {
+                "type": "string",
+                "enum": ["loop"]
+                },
+                "condition": {
+                "type": "string"
+                },
+                "body": {
+                "type": "array",
+                "items": { "oneOf": [
+                    { "$ref": "#/definitions/task" },
+                    { "$ref": "#/definitions/xor_gateway" },
+                    { "$ref": "#/definitions/parallel_gateway" }
+                ] },
+                "minItems": 1
+                }
+            },
+            "required": ["type", "condition", "body"]
+            },
+        "xor_branch": {
+        "type": "object",
+        "properties": {
+            "label": { "type": "string" },
+            "branch": {
+            "type": "array",
+            "items": { "oneOf": [
+                { "$ref": "#/definitions/task" },
+                { "$ref": "#/definitions/xor_gateway" },
+                { "$ref": "#/definitions/parallel_gateway" },
+                { "$ref": "#/definitions/loop" }
+
+            ] },
+
+            "minItems": 0
+            }
+        },
+        "required": ["name", "branch"]
+        },
+        "parallel_branch": {
+        "type": "object",
+        "properties": {
+            "branch": {
+            "type": "array",
+            "items": { "oneOf": [
+                { "$ref": "#/definitions/task" },
+                { "$ref": "#/definitions/xor_gateway" },
+                { "$ref": "#/definitions/parallel_gateway" },
+                { "$ref": "#/definitions/loop" }
+
+            ] },
+            "minItems": 0
+            }
+        },
+        "required": ["branch"]
+        },
+        "xor_gateway": {
+        "type": "object",
+        "properties": {
+            "type": {
+            "type": "string",
+            "enum": ["xor"]
+            },
+            "condition": {
+            "type": "string"
+            },
+            "branches": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+                "$ref": "#/definitions/xor_branch"
+            }
+            }
+        },
+        "required": ["type", "branches"]
+        },
+        "parallel_gateway": {
+        "type": "object",
+        "properties": {
+            "type": {
+            "type": "string",
+            "enum": ["parallel"]
+            },
+            "branches": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+                "$ref": "#/definitions/parallel_branch"
+            }
+            }
+        },
+        "required": ["type", "branches"]
+        }
+    },
+    "properties": {
+        "startEvent":  { "$ref": "#/definitions/startEvent" },
+        "process": {
+        "type": "array",
+        "minItems": 0,
+        "items": { "oneOf": [
+            { "$ref": "#/definitions/task" },
+            { "$ref": "#/definitions/xor_gateway" },
+            { "$ref": "#/definitions/parallel_gateway" },
+            { "$ref": "#/definitions/loop" }
+        ] }  
+        },
+        "endEvent":  { "$ref": "#/definitions/endEvent" }
+
+    },
+    "required": ["process", "startEvent", "endEvent"],
+    "additionalProperties": false
+}
