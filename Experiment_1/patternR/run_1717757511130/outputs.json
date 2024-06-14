@@ -1,0 +1,82 @@
+{
+  "time": "2024-06-07T10:51:11.299Z",
+  "outputs": [
+    {
+      "filename": "10_1.txt",
+      "prompt": "The MPON sents the dismissal to the MPOO .\nThe MPOO reviews the dismissal .\nThe MPOO opposes the dismissal of MPON or the MPOO confirmes the dismissal of the MPON .\n",
+      "output": "Sure, based on your process description, here is the corresponding Mermaid graph following the custom rules:\n\n```mermaid\ngraph LR\n1:startevent:((startevent)) --> 2:task:(MPON sends the dismissal to the MPOO)\n2:task:(MPON sends the dismissal to the MPOO) --> 3:task:(MPOO reviews the dismissal)\n3:task:(MPOO reviews the dismissal) --> 4:exclusivegateway:{x}\n4:exclusivegateway:{x} --> |MPOO opposes the dismissal of MPON| 5:task:(MPOO opposes the dismissal)\n4:exclusivegateway:{x} --> |MPOO confirms the dismissal of the MPON| 6:task:(MPOO confirms the dismissal of the MPON)\n5:task:(MPOO opposes the dismissal) --> 7:endevent:((endevent))\n6:task:(MPOO confirms the dismissal of the MPON) --> 7:endevent:((endevent))\n```",
+      "usage": {
+        "prompt_tokens": 395,
+        "completion_tokens": 219,
+        "total_tokens": 614
+      },
+      "system_fingerprint": "fp_319be4768e"
+    },
+    {
+      "filename": "10_13.txt",
+      "prompt": "The INQ transmits the transaction data request to the IP .\nThe IP checks the request of the INQ .\nThe IP answers the question of the INQ depending on the outcome of the examination , i.e . Transmission of data or rejection .",
+      "output": "```mermaid\ngraph LR\n  1:startevent:((startevent)) --> 2:task:(INQ transmits transaction data request to IP)\n  2:task:(INQ transmits transaction data request to IP) --> 3:task:(IP checks the request of INQ)\n  3:task:(IP checks the request of INQ) --> 4:exclusivegateway:{x}\n  4:exclusivegateway:{x} --> |Transmission of data|5:task:(IP answers the question - data transmission)\n  4:exclusivegateway:{x} --> |Rejection|6:task:(IP answers the question - rejection)\n  5:task:(IP answers the question - data transmission) --> 7:endevent:((endevent))\n  6:task:(IP answers the question - rejection) --> 7:endevent:((endevent))\n```",
+      "usage": {
+        "prompt_tokens": 402,
+        "completion_tokens": 191,
+        "total_tokens": 593
+      },
+      "system_fingerprint": "fp_aa87380ac5"
+    },
+    {
+      "filename": "10_6.txt",
+      "prompt": "The MSPN sents a dismissal to the MSPO .\nThe MSPO reviews the dismissal .\nThe MSPO rejects the dismissal of the MSPN or The MSPO confirms the dismissal of the MSPN .",
+      "output": "```mermaid\ngraph LR\n  1:startevent:((startevent)) --> 2:task:(MSPN sends a dismissal to the MSPO)\n  2:task:(MSPN sends a dismissal to the MSPO) --> 3:task:(MSPO reviews the dismissal)\n  3:task:(MSPO reviews the dismissal) --> 4:exclusivegateway:{x}\n  4:exclusivegateway:{x} --> |MSPO rejects the dismissal| 5:task:(MSPO rejects the dismissal of the MSPN)\n  4:exclusivegateway:{x} --> |MSPO confirms the dismissal| 6:task:(MSPO confirms the dismissal of the MSPN)\n```",
+      "usage": {
+        "prompt_tokens": 394,
+        "completion_tokens": 150,
+        "total_tokens": 544
+      },
+      "system_fingerprint": "fp_319be4768e"
+    },
+    {
+      "filename": "1_2.txt",
+      "prompt": "A customer brings in a defective computer and the CRS checks the defect and hands out a repair cost calculation back .\nIf the customer decides that the costs are acceptable , the process continues , otherwise she takes her computer home unrepaired .\nThe ongoing repair consists of two activities , which are executed , in an arbitrary order .\nThe first activity is to check and repair the hardware , whereas the second activity checks and configures the software .\nAfter each of these activities , the proper system functionality is tested .\nIf an error is detected another arbitrary repair activity is executed , otherwise the repair is finished .\n",
+      "output": "```mermaid\ngraph LR\n  1:startevent:((start event))\n  2:task:(Check defect and calculate repair cost)\n  3:exclusivegateway:{x}\n  4:task:(Customer accepts cost)\n  5:endevent:((end event))\n  6:parallelgateway:{AND}\n  7:task:(Check and repair hardware)\n  8:task:(Check and configure software)\n  9:task:(Test system functionality)\n  10:exclusivegateway:{x}\n  11:task:(Perform arbitrary repair activity)\n  12:endevent:((end event))\n\n  1:startevent:((start event)) --> 2:task:(Check defect and calculate repair cost)\n  2:task:(Check defect and calculate repair cost) --> 3:exclusivegateway:{x}\n  3:exclusivegateway:{x} --> |acceptable| 4:task:(Customer accepts cost)\n  3:exclusivegateway:{x} --> |unacceptable| 5:endevent:((end event))\n  4:task:(Customer accepts cost) --> 6:parallelgateway:{AND}\n  6:parallelgateway:{AND} --> 7:task:(Check and repair hardware)\n  6:parallelgateway:{AND} --> 8:task:(Check and configure software)\n  7:task:(Check and repair hardware) --> 9:task:(Test system functionality)\n  8:task:(Check and configure software) --> 9:task:(Test system functionality)\n  9:task:(Test system functionality) --> 10:exclusivegateway:{x}\n  10:exclusivegateway:{x} --> |error detected| 11:task:(Perform arbitrary repair activity)\n  10:exclusivegateway:{x} --> |no error| 12:endevent:((end event))\n  11:task:(Perform arbitrary repair activity) --> 9:task:(Test system functionality)\n```",
+      "usage": {
+        "prompt_tokens": 468,
+        "completion_tokens": 417,
+        "total_tokens": 885
+      },
+      "system_fingerprint": "fp_319be4768e"
+    },
+    {
+      "filename": "1_3.txt",
+      "prompt": "The Evanstonian is an upscale independent hotel .\nWhen a guest calls room service at The Evanstonian , the room-service manager takes down the order .\nShe then submits an order ticket to the kitchen to begin preparing the food .\nShe also gives an order to the sommelier ( i.e . , the wine waiter ) to fetch wine from the cellar and to prepare any other alcoholic beverages .\nEighty percent of room-service orders include wine or some other alcoholic beverage .\nFinally , she assigns the order to the waiter .\nWhile the kitchen and the sommelier are doing their tasks , the waiter readies a cart ( i.e . , puts a tablecloth on the cart and gathers silverware ) .\nThe waiter is also responsible for nonalcoholic drinks .\nOnce the food , wine , and cart are ready , the waiter delivers it to the guest ’ s room .\nAfter returning to the room-service station , the waiter debits the guest ’ s account .\nThe waiter may wait to do the billing if he has another order to prepare or deliver .",
+      "output": "```mermaid\ngraph LR\n  1:startevent:((startevent))\n  2:task:(Guest calls room service) \n  3:task:(Manager takes down order)\n  4:task:(Submit order to kitchen)\n  5:task:(Order to sommelier)\n  6:task:(Assign order to waiter)\n  7:parallelgateway:{AND}\n  8:task:(Prepare food)\n  9:task:(Fetch wine and prepare drinks)\n  10:task:(Waiter prepares cart and nonalcoholic drinks)\n  11:parallelgateway:{AND}\n  12:task:(Waiter delivers order to guest)\n  13:task:(Waiter debits guest's account)\n  14:endevent:((endevent))\n\n  1:startevent:((startevent)) --> 2:task:(Guest calls room service)\n  2:task:(Guest calls room service) --> 3:task:(Manager takes down order)\n  3:task:(Manager takes down order) --> 4:task:(Submit order to kitchen)\n  3:task:(Manager takes down order) --> 5:task:(Order to sommelier)\n  3:task:(Manager takes down order) --> 6:task:(Assign order to waiter)\n  6:task:(Assign order to waiter) --> 7:parallelgateway:{AND}\n  4:task:(Submit order to kitchen) --> 7:parallelgateway:{AND}\n  5:task:(Order to sommelier) --> 7:parallelgateway:{AND}\n  7:parallelgateway:{AND} --> 8:task:(Prepare food)\n  7:parallelgateway:{AND} --> 9:task:(Fetch wine and prepare drinks)\n  7:parallelgateway:{AND} --> 10:task:(Waiter prepares cart and nonalcoholic drinks)\n  8:task:(Prepare food) --> 11:parallelgateway:{AND}\n  9:task:(Fetch wine and prepare drinks) --> 11:parallelgateway:{AND}\n  10:task:(Waiter prepares cart and nonalcoholic drinks) --> 11:parallelgateway:{AND}\n  11:parallelgateway:{AND} --> 12:task:(Waiter delivers order to guest)\n  12:task:(Waiter delivers order to guest) --> 13:task:(Waiter debits guest's account)\n  13:task:(Waiter debits guest's account) --> 14:endevent:((endevent))\n```",
+      "usage": {
+        "prompt_tokens": 564,
+        "completion_tokens": 550,
+        "total_tokens": 1114
+      },
+      "system_fingerprint": "fp_319be4768e"
+    },
+    {
+      "filename": "3_3.txt",
+      "prompt": "After a claim is registered , it is examined by a claims officer .\nThe claims officer then writes a settlement recommendation .\nThis recommendation is then checked by a senior claims officer who may mark the claim as OK or Not OK .\nIf the claim is marked as Not OK , it is sent back to the claims officer and the recommendation is repeated .\nIf the claim is OK , the claim handling process proceeds .",
+      "output": "Based on the process description and the custom rules for textual notation, here's a valid Mermaid.js diagram for the claim handling process:\n\n```mermaid\ngraph LR\n  1:startevent:((startevent)) --> 2:task:(Register claim)\n  2:task:(Register claim) --> 3:task:(Examine by claims officer)\n  3:task:(Examine by claims officer) --> 4:task:(Write settlement recommendation)\n  4:task:(Write settlement recommendation) --> 5:task:(Check by senior claims officer)\n  5:task:(Check by senior claims officer) --> 6:exclusivegateway:{x}\n  6:exclusivegateway:{x} --> |Not OK| 3:task:(Examine by claims officer)\n  6:exclusivegateway:{x} --> |OK| 7:task:(Proceed with claim handling)\n  7:task:(Proceed with claim handling) --> 8:endevent:((endevent))\n```",
+      "usage": {
+        "prompt_tokens": 432,
+        "completion_tokens": 211,
+        "total_tokens": 643
+      },
+      "system_fingerprint": "fp_319be4768e"
+    },
+    {
+      "filename": "5_2.txt",
+      "prompt": "The process of Vacations Request starts when any employee of the organization submits a vacation request .\nOnce the requirement is registered , the request is received by the immediate supervisor of the employee requesting the vacation .\nThe supervisor must approve or reject the request .\nIf the request is rejected , the application is returned to the applicant / employee who can review the rejection reasons .\nIf the request is approved a notification is generated to the Human Resources Representative , who must complete the respective management procedures .",
+      "output": "```mermaid\ngraph LR\n  1:startevent:((Start Event)) --> 2:task:(Submit Vacation Request)\n  2:task:(Submit Vacation Request) --> 3:task:(Receive Request)\n  3:task:(Receive Request) --> 4:task:(Review Request by Supervisor)\n  4:task:(Review Request by Supervisor) --> 5:exclusivegateway:{x}\n  5:exclusivegateway:{x} --> |Rejected| 6:task:(Return to Applicant)\n  6:task:(Return to Applicant) --> 7:task:(Review Rejection Reasons)\n  5:exclusivegateway:{x} --> |Approved| 8:task:(Generate Notification to HR)\n  8:task:(Generate Notification to HR) --> 9:task:(Complete Management Procedures)\n  9:task:(Complete Management Procedures) --> 10:endevent:((End Event))\n```",
+      "usage": {
+        "prompt_tokens": 446,
+        "completion_tokens": 197,
+        "total_tokens": 643
+      },
+      "system_fingerprint": "fp_319be4768e"
+    }
+  ]
+}
